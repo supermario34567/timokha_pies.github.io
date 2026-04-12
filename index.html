@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>ПИРОЖКИ ОТ ТИМОХИ!!!</title>
+    <style>
+        body { 
+            background-color: yellow; 
+            text-align: center; 
+            font-family: "Arial Black", sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        .main-img { 
+            border: 5px solid red; 
+            width: 400px; 
+            margin-bottom: 10px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        .order-card, .review-card {
+            background: #fff; 
+            border: 4px solid black; 
+            padding: 25px;
+            display: inline-block; 
+            border-radius: 15px; 
+            box-shadow: 10px 10px 0px black;
+            width: 420px; 
+            margin: 10px; 
+            vertical-align: top;
+        }
+        .counter-box { 
+            font-size: 22px; 
+            background: black; 
+            color: lime; 
+            padding: 10px; 
+            border-radius: 10px; 
+            margin-bottom: 15px; 
+            font-family: 'Courier New', monospace;
+        }
+        .menu-table { width: 100%; border-collapse: collapse; text-align: left; }
+        .menu-table td { padding: 6px 0; font-size: 16px; }
+        .menu-table td:last-child { text-align: right; }
+        input[type="number"] { 
+            width: 60px; 
+            padding: 5px; 
+            border: 2px solid black; 
+            font-weight: bold; 
+            text-align: center; 
+        }
+        .total-text { 
+            font-size: 30px; 
+            color: red; 
+            margin: 20px 0; 
+            border-top: 2px solid #ccc; 
+            padding-top: 10px; 
+        }
+        input { 
+            padding: 12px; 
+            border: 2px solid black; 
+            width: 90%; 
+            border-radius: 5px;
+        }
+        button { 
+            padding: 15px 30px; 
+            font-size: 20px; 
+            cursor: pointer; 
+            border: 3px solid black; 
+            font-weight: bold; 
+            margin-top: 15px; 
+            transition: 0.2s; 
+        }
+        .btn-order { background-color: #4CAF50; color: white; }
+        .btn-music { background-color: orange; margin-bottom: 15px; }
+        button:hover { transform: scale(1.05); }
+        
+        .review { text-align: left; border-bottom: 1px solid #ddd; padding: 10px 0; font-size: 14px; font-family: Arial; }
+        .review b { color: #d32f2f; }
+
+        /* Стили для игры */
+        #game-container {
+            margin: 30px auto;
+            width: 420px;
+            height: 400px;
+            background: #000;
+            border: 4px solid #fff;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            display: inline-block;
+            border-radius: 15px;
+            box-shadow: 10px 10px 0px black;
+        }
+        #score {
+            color: white;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 18px;
+            z-index: 10;
+            font-family: 'Courier New', monospace;
+        }
+        #maloy {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            z-index: 5;
+        }
+        #start-btn {
+            color: white;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            background: red;
+            padding: 15px;
+            border: 3px solid white;
+            z-index: 20;
+            font-weight: bold;
+        }
+
+        .disclaimer {
+            margin-top: 50px; 
+            padding: 20px; 
+            font-size: 12px; 
+            color: #555; 
+            font-family: Arial, sans-serif; 
+            line-height: 1.5; 
+            border-top: 1px solid #ccc;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body onclick="startMusic()">
+
+    <h1>СМОТРИ КАКОЙ ВКУСНЫЙ ПИРОЖОК!</h1>
+    <img src="image.png" class="main-img" alt="Тимоха Шалун">
+    <br>
+    <button class="btn-music">ВКЛЮЧИТЬ МУЗЫКУ 🎵</button>
+    <br>
+
+    <!-- БЛОК ЗАКАЗА -->
+    <div class="order-card">
+        <div class="counter-box">🚛 РАЗЫГРАНО ГОВНОВОЗОВ: <span id="count_trucks">205</span></div>
+        <h2 style="margin-top:0;">🏫 МЕНЮ ТИМОХИ</h2>
+        <table class="menu-table">
+            <tr><td>🥐 Пирожок (100р)</td><td><input type="number" id="p1" value="0" step="0.1" oninput="calc()"></td></tr>
+            <tr><td>🌭 Булочка с сосиской (120р)</td><td><input type="number" id="p2" value="0" step="0.1" oninput="calc()"></td></tr>
+            <tr><td>☕ Чай (40р)</td><td><input type="number" id="p3" value="0" step="0.1" oninput="calc()"></td></tr>
+            <tr><td>🥪 Бутерброд (80р)</td><td><input type="number" id="p4" value="0" step="0.1" oninput="calc()"></td></tr>
+            <tr><td>🥟 Пельмени (150р)</td><td><input type="number" id="p5" value="0" step="0.1" oninput="calc()"></td></tr>
+            <tr><td>🥯 Пряник (60р)</td><td><input type="number" id="p6" value="0" step="0.1" oninput="calc()"></td></tr>
+        </table>
+        <div class="total-text">ИТОГО: <span id="res">0</span> руб.</div>
+        <input type="text" id="addr" placeholder="Адрес (например, Тверская 13)...">
+        <button class="btn-order" onclick="makeOrder()">ЗАКАЗАТЬ ГОВНОВОЗ!</button>
+    </div>
+
+    <!-- БЛОК ОТЗЫВОВ -->
+    <div class="review-card">
+        <h2 style="margin-top:0;">💬 ОТЗЫВЫ КЛИЕНТОВ</h2>
+        <div class="review"><b>Босс из Рио:</b> "После 0.6 пирожка жизнь заиграла новыми красками. Говновоз приехал вовремя!"</div>
+        <div class="review"><b>Ученик школы №4:</b> "Пельмени топ, но музыка в столовой слишком громкая. 5 звезд."</div>
+        <div class="review"><b>Сергей Собянин:</b> "Жду свои 10 000 пирожков на Тверской. На говновозе по Москве быстрее!"</div>
+        <div class="review"><b>Аноним:</b> "Заказал пряник, а обернулся — там Тимоха. Чуть со страху 100 рублей не отдал."</div>
+    </div>
+
+    <br>
+
+    <!-- МИНИ-ИГРА -->
+    <div id="game-container">
+        <div id="score">СБИТО ТИМОХ: 0</div>
+        <img src="maloy.png" id="maloy">
+        <div id="start-btn" onclick="startGame()">НАЧАТЬ ЗАЩИТУ ПИРОЖКОВ!</div>
+    </div>
+
+    <!-- ДИСКЛЕЙМЕР -->
+    <div class="disclaimer">
+        <p><strong>ДИСКЛЕЙМЕР (ВАЖНО!):</strong></p>
+        <p>Данный сайт создан исключительно в развлекательных целях и является шуткой. 
+        Все отзывы персонажей являются вымышленными. Никакие говновозы на самом деле не разыгрываются, 
+        доставка еды не осуществляется. © 2026 Тимоха Шалун и Ко.</p>
+    </div>
+
+    <audio id="m" loop><source src="song.mp3" type="audio/mpeg"></audio>
+
+    <script>
+        let isPlaying = false;
+        let trucks = 205;
+        let score = 0;
+        let gameActive = false;
+
+        function startMusic() { if(!isPlaying) { document.getElementById('m').play(); isPlaying = true; } }
+
+        // Счётчик говновозов
+        setInterval(() => {
+            trucks += Math.floor(Math.random() * 3);
+            document.getElementById('count_trucks').innerText = trucks;
+        }, 2000);
+
+        function calc() {
+            let total = (parseFloat(document.getElementById('p1').value || 0) * 100) +
+                        (parseFloat(document.getElementById('p2').value || 0) * 120) +
+                        (parseFloat(document.getElementById('p3').value || 0) * 40) +
+                        (parseFloat(document.getElementById('p4').value || 0) * 80) +
+                        (parseFloat(document.getElementById('p5').value || 0) * 150) +
+                        (parseFloat(document.getElementById('p6').value || 0) * 60);
+            document.getElementById('res').innerText = total.toFixed(2).replace('.00', '');
+        }
+
+        function makeOrder() {
+            let total = document.getElementById('res').innerText;
+            if(total > 0 && document.getElementById('addr').value != "") {
+                alert("С ТЕБЯ " + total + " РУБЛЕЙ! ОБЕРНИСЬ!");
+            } else { alert("ВВЕДИ ДАННЫЕ!"); }
+        }
+
+        // Логика игры
+        function startGame() {
+            if (gameActive) return;
+            gameActive = true;
+            score = 0;
+            document.getElementById('score').innerText = "СБИТО ТИМОХ: 0";
+            document.getElementById('start-btn').style.display = 'none';
+            spawnClone();
+        }
+
+        function spawnClone() {
+            if (!gameActive) return;
+            let clone = document.createElement('img');
+            clone.src = "image.png";
+            clone.style.position = "absolute";
+            clone.style.width = "50px";
+            clone.style.left = Math.random() * (420 - 50) + "px";
+            clone.style.top = "-60px";
+            clone.style.zIndex = "4";
+            clone.style.cursor = "pointer";
+            
+            let fallDuration = Math.max(800, 3000 - (score * 40));
+            clone.style.transition = `top ${fallDuration}ms linear`;
+            
+            clone.onclick = function() {
+                score++;
+                document.getElementById('score').innerText = "СБИТО ТИМОХ: " + score;
+                this.remove();
+            };
+            
+            document.getElementById('game-container').appendChild(clone);
+            setTimeout(() => { clone.style.top = "400px"; }, 50);
+            
+            setTimeout(() => {
+                if (clone.parentElement && gameActive) {
+                    gameActive = false;
+                    alert("ТИМОХА ЗАБРАЛ ПИРОЖКИ! Счёт: " + score);
+                    document.getElementById('start-btn').style.display = 'block';
+                    document.querySelectorAll('#game-container img:not(#maloy)').forEach(img => img.remove());
+                }
+            }, fallDuration + 100);
+
+            setTimeout(spawnClone, Math.max(250, 1000 - (score * 25)));
+        }
+    </script>
+</body>
+</html>
